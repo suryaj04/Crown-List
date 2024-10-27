@@ -154,6 +154,12 @@ export default function App() {
         Task deleted successfully
       </div>
       </SignedIn>
+      <SignedOut>
+        <div className="sm:w-[560px] w-[90%] mt-20  sm:mt-52 mx-auto">
+        <h1 className="sm:text-3xl text-center text-xl font-bold sm:font-black">Simplify, Organize, Accomplish.</h1>
+        <p className="text-center text-lg font-semibold tracking-tighter ">Streamline your day and focus on what matters most. Our intuitive to-do app helps you prioritize, organize, and tackle your tasks with ease.</p>
+        </div>
+      </SignedOut>
     </div>
   );
 }
