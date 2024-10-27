@@ -29,9 +29,9 @@ export default function Card({title,desc,id,del}) {
   }
   return (
    <>
-     <div title={title} className='bg-blue-50 hover:scale-105 transition-all flex justify-between items-center w-96 mx-auto p-2 mt-2 rounded-md border border-blue-600'>
+     <div title={title} className='bg-blue-50 hover:scale-105 transition-all flex justify-between items-center w-[95%] sm:w-96 mx-auto p-1 mt-2 rounded-md border border-blue-600'>
       <div>
-      <h1 contentEditable={edit} tabIndex={0} suppressContentEditableWarning='true' ref={Title} aria-required className='font-semibold p-1 font-mono  text-lg'>{title}</h1>
+      <h1 contentEditable={edit} tabIndex={0} suppressContentEditableWarning='true' ref={Title} aria-required className='font-semibold font-mono  text-lg'>{title}</h1>
       <h1 className='font-mono'>{desc}</h1>
       </div>
         <div className='flex gap-2'>
@@ -39,7 +39,7 @@ export default function Card({title,desc,id,del}) {
       <button onClick={()=>del(id)} className='bg-red-50 text-red-600 px-3 py-1 font-semibold rounded-md border text-2xl border-red-600'><MdDeleteOutline /></button>
         </div>
     </div>
-    <div className={save ? "absolute text-green-600 top-10 left-10 border transition-all scale-1 bg-green-100 p-2 rounded-sm border-green-600 font-bold font-mono text-lg" : "absolute top-10 left-10 text-green-600 border transition-all scale-0 bg-green-100 p-2 rounded-sm border-green-600 font-bold font-mono text-lg"}>Title updated successfully</div>
+    <div className={save ? "absolute text-green-600 hidden sm:block top-10 left-10 border transition-all scale-1 bg-green-100 p-1 rounded-sm border-green-600 font-bold font-mono text-lg" : "absolute top-10 left-10 hidden sm:block text-green-600 border transition-all scale-0 bg-green-100 p-1 rounded-sm border-green-600 font-bold font-mono text-lg"}>Title updated successfully</div>
    </>
   )
 }

@@ -70,8 +70,8 @@ export default function App() {
   return (
     <div>
       <div className="border-b p-3">
-      <header className="w-[900px] flex justify-between items-center mx-auto">
-        <h1 className="font-bold text-3xl font-mono">CrownList</h1>
+      <header className=" sm:w-[90%] w-11/12  md:w-[90%] lg:w-[900px] flex justify-between items-center mx-auto">
+        <h1 className="font-bold text-xl sm:text-3xl font-mono">CrownList</h1>
       <SignedIn>
         <UserButton  />
       </SignedIn>
@@ -83,11 +83,11 @@ export default function App() {
       <SignedIn>
         <form
           action=""
-          className="w-96 mx-auto p-2 mt-5"
+          className="sm:w-96 w-[90%] mx-auto p-2 mt-5"
           onSubmit={handleSubmit(submit)}
         >
-          <h1 className="font-bold text-2xl">
-            Manage your tasks <span className="text-neutral-600 text-2xl">@{isSignedIn ? user.firstName : ''}</span>
+          <h1 className="font-bold text-xl sm:text-2xl">
+            Manage your tasks <span className="text-neutral-600 text-xl sm:text-2xl">@{isSignedIn ? user.firstName : ''}</span>
           </h1>
           <input
             required
@@ -118,9 +118,9 @@ export default function App() {
           </button>
         </form>
       {
-        todos.filter(todo=> isSignedIn ? todo.createdBy===user.username : true).length > 0 ?  <h1 className="font-bold font-mono text-2xl my-2 text-center">
+        todos.filter(todo=> isSignedIn ? todo.createdBy===user.username : true).length > 0 ?  <h1 className="font-bold font-mono text-xl sm:text-2xl my-2 text-center">
         Your Tasks
-      </h1> : <h1 className="font-bold font-mono tracking-tighter text-2xl my-2 text-center">
+      </h1> : <h1 className="font-bold font-mono tracking-tighter text-xl sm:text-2xl my-2 text-center">
       Add task to see them here
       </h1>
       }
@@ -138,8 +138,8 @@ export default function App() {
       <div
         className={
           notification
-            ? "absolute top-20 right-10 rounded-md border transition-all scale-1 bg-green-100 p-2 text-green-600 border-green-600 font-bold font-mono text-lg"
-            : "absolute top-20 text-green-600 right-10 border transition-all scale-0 bg-green-100 p-2 rounded-md border-green-600 font-bold font-mono text-lg"
+            ? "absolute sm:top-20  sm:right-10 hidden sm:block rounded-md border transition-all scale-1 bg-green-100 p-2 text-green-600 border-green-600 font-bold font-mono text-lg"
+            : "absolute top-20 text-green-600 hidden sm:block right-10 border transition-all scale-0 bg-green-100 p-2 rounded-md border-green-600 font-bold font-mono text-lg"
         }
       >
         Task added successfully!
@@ -147,8 +147,8 @@ export default function App() {
       <div
         className={
           deleteStatus
-            ? "absolute text-red-600 top-20 left-10 border transition-all scale-1 bg-red-100 p-2 rounded-md border-red-600 font-bold font-mono text-lg"
-            : "absolute top-20 left-10 text-red-600 border transition-all scale-0 bg-red-100 p-2 rounded-md border-red-600 font-bold font-mono text-lg"
+            ? "absolute text-red-600 top-20 hidden sm:block left-10 border transition-all scale-1 bg-red-100 p-2 rounded-md border-red-600 font-bold font-mono text-lg"
+            : "absolute top-20 left-10 text-red-600 hidden sm:block border transition-all scale-0 bg-red-100 p-2 rounded-md border-red-600 font-bold font-mono text-lg"
         }
       >
         Task deleted successfully
