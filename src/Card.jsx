@@ -1,34 +1,45 @@
-import React, { useState } from "react";
+import axios from 'axios'
+import { useRef, useState } from 'react'
+import { MdDeleteOutline } from "react-icons/md";
+import { BiSolidEdit } from "react-icons/bi";
+import { FaRegSave } from "react-icons/fa";
 
-export default function Card({ title, desc, handleDelete, id }) {
-  let [deleteStatus, setDelete] = useState(false);
-  function deleteHandler() {
-    setDelete(true);
-    handleDelete(id);
+export default function Card({title,desc,id,del}) {
+  let [edit,setEdit] = useState(false)
+  let [save,setSave] = useState(false)
+  let api = 'https://todos-eb5ee-default-rtdb.asia-southeast1.firebasedatabase.app/'
+  let Title = useRef()
+  function editHandler(){
+    if(edit){
+      let update = Title.current.innerText
+      axios.patch(`${api}todos/${id}.json`,{title:update}).then(()=>{
+        setEdit(false)
+        setSave(true)
+        setTimeout(()=>{
+          setSave(false)
+        },1500)
+      })
+    }
+    else{
+      setEdit(true)
+      setTimeout(()=>{
+        Title.current.focus()
+      },0)
+    }
   }
   return (
-    <div className="w-96 mx-auto mt-2 p-2 border items-center flex justify-between rounded-md border-black">
+   <>
+     <div title={title} className='bg-blue-50 hover:scale-105 transition-all flex justify-between items-center w-96 mx-auto p-2 mt-2 rounded-md border border-blue-600'>
       <div>
-        <h1 className="font-semibold text-lg">{title}</h1>
-        <h1 className="font-semibold">{desc}</h1>
+      <h1 contentEditable={edit} tabIndex={0} suppressContentEditableWarning='true' ref={Title} aria-required className='font-semibold p-1 font-mono  text-lg'>{title}</h1>
+      <h1 className='font-mono'>{desc}</h1>
       </div>
-      <button onClick={deleteHandler} className="font-bold">
-        {deleteStatus ? (
-          <span className="loader"></span>
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="22"
-            height="22"
-            fill="currentColor"
-            className="bi text-red-600 bi-trash"
-            viewBox="0 0 16 16"
-          >
-            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-          </svg>
-        )}
-      </button>
+        <div className='flex gap-2'>
+      <button onClick={editHandler} className={!edit ? 'bg-blue-50 text-blue-600 px-3 py-1 font-semibold rounded-md border text-2xl border-blue-600' : 'bg-green-50 text-green-600 px-3 py-1 font-semibold rounded-md border text-2xl border-green-600' }>{edit ? <FaRegSave /> : <BiSolidEdit />}</button>
+      <button onClick={()=>del(id)} className='bg-red-50 text-red-600 px-3 py-1 font-semibold rounded-md border text-2xl border-red-600'><MdDeleteOutline /></button>
+        </div>
     </div>
-  );
+    <div className={save ? "absolute text-green-600 top-10 left-10 border transition-all scale-1 bg-green-100 p-2 rounded-sm border-green-600 font-bold font-mono text-lg" : "absolute top-10 left-10 text-green-600 border transition-all scale-0 bg-green-100 p-2 rounded-sm border-green-600 font-bold font-mono text-lg"}>Title updated successfully</div>
+   </>
+  )
 }
