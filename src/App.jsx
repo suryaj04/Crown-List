@@ -2,7 +2,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Card from "./Card";
-import { SignedIn, SignedOut, SignInButton, UserButton, useUser, useAuth } from "@clerk/clerk-react";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+  useUser,
+  useAuth,
+} from "@clerk/clerk-react";
 
 export default function App() {
   let { register, handleSubmit, reset } = useForm();
@@ -10,10 +17,9 @@ export default function App() {
   let [notification, setNotification] = useState(false);
   let [load, setLoad] = useState(false);
   let [deleteStatus, setDeleteStatus] = useState(false);
-  let {user} = useUser()
-  let {isSignedIn} = useAuth()
-  let api =
-    "https://todos-eb5ee-default-rtdb.asia-southeast1.firebasedatabase.app/";
+  let { user } = useUser();
+  let { isSignedIn } = useAuth();
+  let api = import.meta.env.VITE_API_URL;
   function submit(data) {
     setLoad(true);
     axios
@@ -70,15 +76,15 @@ export default function App() {
   return (
     <div>
       <div className="border-b p-3">
-      <header className=" sm:w-[90%] w-11/12  md:w-[90%] lg:w-[900px] flex justify-between items-center mx-auto">
-        <h1 className="font-bold text-xl sm:text-3xl font-mono">CrownList</h1>
-      <SignedIn>
-        <UserButton  />
-      </SignedIn>
-      <SignedOut>
-        <SignInButton  />
-      </SignedOut>
-    </header>
+        <header className=" sm:w-[90%] w-11/12  md:w-[90%] lg:w-[900px] flex justify-between items-center mx-auto">
+          <h1 className="font-bold text-xl sm:text-3xl font-mono">CrownList</h1>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+        </header>
       </div>
       <SignedIn>
         <form
@@ -87,7 +93,10 @@ export default function App() {
           onSubmit={handleSubmit(submit)}
         >
           <h1 className="font-bold text-xl sm:text-2xl">
-            Manage your tasks <span className="text-neutral-600 text-xl sm:text-2xl">@{isSignedIn ? user.firstName : ''}</span>
+            Manage your tasks{" "}
+            <span className="text-neutral-600 text-xl sm:text-2xl">
+              @{isSignedIn ? user.firstName : ""}
+            </span>
           </h1>
           <input
             required
@@ -117,47 +126,61 @@ export default function App() {
             )}
           </button>
         </form>
-      {
-        todos.filter(todo=> isSignedIn ? todo.createdBy===user.username : true).length > 0 ?  <h1 className="font-bold font-mono text-xl sm:text-2xl my-2 text-center">
-        Your Tasks
-      </h1> : <h1 className="font-bold font-mono tracking-tighter text-xl sm:text-2xl my-2 text-center">
-      Add task to see them here
-      </h1>
-      }
-      <div className="flex flex-col-reverse">
-        {todos.filter(todo=>isSignedIn ? todo.createdBy === user.username : true).map((todo) => (
-          <Card
-            title={todo.title}
-            desc={todo.desc}
-            del={deletehandler}
-            key={todo.id}
-            id={todo.id}
-          />
-        ))}
-      </div>
-      <div
-        className={
-          notification
-            ? "absolute sm:top-20  sm:right-10 hidden sm:block rounded-md border transition-all scale-1 bg-green-100 p-2 text-green-600 border-green-600 font-bold font-mono text-lg"
-            : "absolute top-20 text-green-600 hidden sm:block right-10 border transition-all scale-0 bg-green-100 p-2 rounded-md border-green-600 font-bold font-mono text-lg"
-        }
-      >
-        Task added successfully!
-      </div>
-      <div
-        className={
-          deleteStatus
-            ? "absolute text-red-600 top-20 hidden sm:block left-10 border transition-all scale-1 bg-red-100 p-2 rounded-md border-red-600 font-bold font-mono text-lg"
-            : "absolute top-20 left-10 text-red-600 hidden sm:block border transition-all scale-0 bg-red-100 p-2 rounded-md border-red-600 font-bold font-mono text-lg"
-        }
-      >
-        Task deleted successfully
-      </div>
+        {todos.filter((todo) =>
+          isSignedIn ? todo.createdBy === user.username : true
+        ).length > 0 ? (
+          <h1 className="font-bold font-mono text-xl sm:text-2xl my-2 text-center">
+            Your Tasks
+          </h1>
+        ) : (
+          <h1 className="font-bold font-mono tracking-tighter text-xl sm:text-2xl my-2 text-center">
+            Add task to see them here
+          </h1>
+        )}
+        <div className="flex flex-col-reverse">
+          {todos
+            .filter((todo) =>
+              isSignedIn ? todo.createdBy === user.username : true
+            )
+            .map((todo) => (
+              <Card
+                title={todo.title}
+                desc={todo.desc}
+                del={deletehandler}
+                key={todo.id}
+                id={todo.id}
+              />
+            ))}
+        </div>
+        <div
+          className={
+            notification
+              ? "absolute sm:top-20  sm:right-10 hidden sm:block rounded-md border transition-all scale-1 bg-green-100 p-2 text-green-600 border-green-600 font-bold font-mono text-lg"
+              : "absolute top-20 text-green-600 hidden sm:block right-10 border transition-all scale-0 bg-green-100 p-2 rounded-md border-green-600 font-bold font-mono text-lg"
+          }
+        >
+          Task added successfully!
+        </div>
+        <div
+          className={
+            deleteStatus
+              ? "absolute text-red-600 top-20 hidden sm:block left-10 border transition-all scale-1 bg-red-100 p-2 rounded-md border-red-600 font-bold font-mono text-lg"
+              : "absolute top-20 left-10 text-red-600 hidden sm:block border transition-all scale-0 bg-red-100 p-2 rounded-md border-red-600 font-bold font-mono text-lg"
+          }
+        >
+          Task deleted successfully
+        </div>
       </SignedIn>
       <SignedOut>
         <div className="sm:w-[560px] w-[90%] mt-20  sm:mt-52 mx-auto">
-        <h1 className="sm:text-3xl text-center text-xl font-bold sm:font-black">Simplify, Organize, Accomplish.</h1>
-        <p className="text-center text-lg font-semibold tracking-tighter ">Streamline your day and focus on what matters most. Our intuitive to-do app helps you prioritize, organize, and tackle your tasks with ease.</p>
+          <h1 className="sm:text-3xl text-center text-xl font-bold sm:font-black">
+            Simplify, Organize, Accomplish.
+          </h1>
+          <p className="text-center text-lg   ">
+            Streamline your day and focus on what matters most. Our intuitive
+            to-do app helps you prioritize, organize, and tackle your tasks with
+            ease.
+          </p>
         </div>
       </SignedOut>
     </div>
