@@ -53,7 +53,7 @@ export default function Card({ title, desc, id, del,status }) {
           >
             {title}
           </h1>
-          <h1 className={currentStatus ?  "font-mono line-through ml-5" : 'font-mono ml-1.5'}>{desc}</h1>
+          <h1 className={currentStatus ?  "font-mono line-through ml-5" : 'font-mono ml-5'}>{desc}</h1>
         </div>
         <div className="flex gap-2">
           <button
@@ -68,7 +68,7 @@ export default function Card({ title, desc, id, del,status }) {
           </button>
           <button
             onClick={() => del(id)}
-            className="bg-slate-50 text-slate-600 px-3 py-1 font-semibold rounded-md border text-2xl border-slate-600 hover:bg-red-50 hover:text-red-600 hover:border-red-600"
+            className="bg-slate-50 text-slate-600 px-3 transition-all py-1 font-semibold rounded-md border text-2xl border-slate-600 hover:bg-red-50 hover:text-red-600 hover:border-red-600"
           >
             <MdDeleteOutline />
           </button>
