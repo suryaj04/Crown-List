@@ -53,7 +53,7 @@ export default function Card({ title, desc, id, del,status }) {
           >
             {title}
           </h1>
-          <h1 className="font-mono ml-5">{desc}</h1>
+          <h1 className={currentStatus ?  "font-mono line-through ml-5" : 'font-mono ml-1.5'}>{desc}</h1>
         </div>
         <div className="flex gap-2">
           <button
