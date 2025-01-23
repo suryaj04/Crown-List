@@ -4,9 +4,10 @@ import { MdDeleteOutline } from "react-icons/md";
 import { BiSolidEdit } from "react-icons/bi";
 import { FaRegSave } from "react-icons/fa";
 
-export default function Card({ title, desc, id, del }) {
+export default function Card({ title, desc, id, del,status }) {
   let [edit, setEdit] = useState(false);
   let [save, setSave] = useState(false);
+  let [currentStatus,setCurrentStatus] = useState(status)
   let api = import.meta.env.VITE_API_URL;
   let Title = useRef();
   function editHandler() {
@@ -26,6 +27,14 @@ export default function Card({ title, desc, id, del }) {
       }, 0);
     }
   }
+  function statusHandler(){
+    setCurrentStatus(prev=>!prev)
+    axios.patch(`${api}todos/${id}.json`, { status: !status }).then(()=>{
+      console.log(currentStatus)
+    }).catch(err=>{
+      console.log(err)
+    })
+  }
   return (
     <>
       <div
@@ -33,18 +42,18 @@ export default function Card({ title, desc, id, del }) {
         className="bg-slate-50 transition-all flex justify-between items-center w-[85%] sm:w-96 mx-auto p-1 mt-2 rounded-md border border-slate-400"
       >
         <div>
-          <input type="checkbox"  className="accent-slate-50"/>
+          <input type="checkbox" onChange={statusHandler} checked={currentStatus ? true : false} className="accent-slate-50"/>
           <h1
             contentEditable={edit}
             tabIndex={0}
             suppressContentEditableWarning="true"
             ref={Title}
             aria-required
-            className="font-semibold inline ml-2 font-mono text-lg"
+            className={currentStatus ? "font-semibold inline line-through ml-2 font-mono text-lg" : "font-semibold inline ml-2 font-mono text-lg"}
           >
             {title}
           </h1>
-          <h1 className="font-mono peer-checked:line-through ml-5">{desc}</h1>
+          <h1 className="font-mono ml-5">{desc}</h1>
         </div>
         <div className="flex gap-2">
           <button

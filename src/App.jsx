@@ -27,6 +27,7 @@ export default function App() {
         title: data.title,
         desc: data.description,
         createdBy: user.username,
+        status: false,
       })
       .then(() => {
         setLoad(false);
@@ -93,7 +94,7 @@ export default function App() {
           onSubmit={handleSubmit(submit)}
         >
           <h1 className="font-bold text-xl sm:text-2xl">
-          Command A New Task{" "}
+            Command A New Task{" "}
             <span className="text-neutral-600 text-xl sm:text-2xl">
               @{isSignedIn ? user.firstName : ""}
             </span>
@@ -149,6 +150,7 @@ export default function App() {
                 del={deletehandler}
                 key={todo.id}
                 id={todo.id}
+                status={todo.status}
               />
             ))}
         </div>
@@ -161,7 +163,7 @@ export default function App() {
         >
           Task added successfully!
         </div>
-       <h1
+        <h1
           className={
             deleteStatus
               ? "absolute text-red-600 top-16 h-8 hidden sm:block left-[45%] border items-center transition-all scale-1 bg-red-100 px-4 py-2 rounded-full border-red-600 font-bold font-mono text-sm"
@@ -169,7 +171,7 @@ export default function App() {
           }
         >
           Task deleted successfully
-       </h1>
+        </h1>
       </SignedIn>
       <SignedOut>
         <div className="sm:w-[560px] w-[90%] mt-20 h-screen top-1/2 sm:mt-52 mx-auto">
