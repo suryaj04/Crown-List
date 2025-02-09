@@ -152,7 +152,7 @@ export default function App() {
             Your tasks
           </h1>
         ) : (
-          <h1 className="font-bold text-[#2E382E] text-xl sm:text-2xl my-2 text-center">
+          <h1 className="font-semibold text-[#2E382E] text-xl sm:text-2xl my-2 text-center">
             Your task list is waiting to be filled
           </h1>
         )}
