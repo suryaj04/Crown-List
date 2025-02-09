@@ -202,10 +202,10 @@ export default function App() {
             to-do app helps you prioritize, organize, and tackle your tasks with
             ease.
           </p>
-          </BlurFade>
           <center>
             <SignInButton className="font-bold px-5 py-2 bg-[#5B2333] text-[#F7F4F3] mt-2 rounded-full" />
           </center>
+          </BlurFade>
         </div>
         <Ripple />
       </SignedOut>
