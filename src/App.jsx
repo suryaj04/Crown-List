@@ -191,8 +191,8 @@ export default function App() {
           Task deleted successfully
         </h1>
       </SignedIn>
-      <SignedOut className="overflow-hidden">
-        <div className="sm:w-[560px] w-[90%] absolute top-1/2 left-1/2 translate-x-[-50%] text-pretty translate-y-[-50%] mx-auto">
+      <SignedOut>
+        <div className="sm:w-[560px] w-[90%] absolute top-1/2 left-1/2 translate-x-[-50%] overflow-hidden text-pretty translate-y-[-50%] mx-auto">
         <BlurFade delay={0.25} inView>
           <h1 className="sm:text-3xl text-center text-[#5B2333] text-2xl font-black">
           Simplify, Organize, Accomplish.

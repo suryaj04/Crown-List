@@ -12,12 +12,12 @@ export const Ripple = React.memo(function Ripple({
   return (
     (<div
       className={cn(
-        "pointer-events-none absolute inset-0 select-none [mask-image:linear-gradient(to_bottom,white,transparent)]",
+        "pointer-events-none overflow-hidden absolute inset-0 select-none [mask-image:linear-gradient(to_bottom,white,transparent)]",
         className
       )}
       {...props}>
       {Array.from({ length: numCircles }, (_, i) => {
-        const size = mainCircleSize + i * 80;
+        const size = mainCircleSize + i * 70;
         const opacity = mainCircleOpacity - i * 0.03;
         const animationDelay = `${i * 0.06}s`;
         const borderStyle = i === numCircles - 1 ? "dashed" : "solid";
@@ -26,7 +26,7 @@ export const Ripple = React.memo(function Ripple({
         return (
           (<div
             key={i}
-            className={`[--i: absolute animate-ripple rounded-full border bg-foreground/25 shadow-xl${i}]`}
+            className={`[--i: absolute overflow-hidden animate-ripple rounded-full border bg-foreground/25 shadow-xl${i}]`}
             style={
               {
                 width: `${size}px`,
@@ -34,7 +34,7 @@ export const Ripple = React.memo(function Ripple({
                 opacity,
                 animationDelay,
                 borderStyle,
-                borderWidth: "1px",
+                borderWidth: "2px",
                 borderColor: `hsl(var(--foreground), ${borderOpacity / 100})`,
                 top: "50%",
                 left: "50%",
