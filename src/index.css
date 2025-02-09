@@ -20,3 +20,15 @@
         transform: rotate(360deg);
     }
     } 
+    body{
+        background-color: #F7F4F3;
+    }
+    *::selection{
+        background-color: #5B2333;
+        color: #F7F4F3;
+    }
+    @layer base {
+  :root {
+        --radius: 0.5rem;
+    }
+}

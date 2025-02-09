@@ -4,10 +4,10 @@ import { MdDeleteOutline } from "react-icons/md";
 import { BiSolidEdit } from "react-icons/bi";
 import { FaRegSave } from "react-icons/fa";
 
-export default function Card({ title, desc, id, del,status }) {
+export default function Card({ title, desc, id, del, status }) {
   let [edit, setEdit] = useState(false);
   let [save, setSave] = useState(false);
-  let [currentStatus,setCurrentStatus] = useState(status)
+  let [currentStatus, setCurrentStatus] = useState(status);
   let api = import.meta.env.VITE_API_URL;
   let Title = useRef();
   function editHandler() {
@@ -27,48 +27,66 @@ export default function Card({ title, desc, id, del,status }) {
       }, 0);
     }
   }
-  function statusHandler(){
-    setCurrentStatus(prev=>!prev)
-    axios.patch(`${api}todos/${id}.json`, { status: !status }).then(()=>{
-      console.log(currentStatus)
-    }).catch(err=>{
-      console.log(err)
-    })
+  function statusHandler() {
+    setCurrentStatus((prev) => !prev);
+    axios
+      .patch(`${api}todos/${id}.json`, { status: !status })
+      .then(() => {
+        console.log(currentStatus);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   return (
     <>
       <div
         title={title}
-        className="bg-slate-50 transition-all flex justify-between items-center w-[85%] sm:w-96 mx-auto p-1 mt-2 rounded-md border border-slate-400"
+        className="bg-[#5B2333] text-[#F7F4F3] backdrop-blur-sm transition-all flex justify-between items-center w-[85%] sm:w-96 mx-auto p-1 mt-2 rounded-md border border-slate-400"
       >
         <div>
-          <input type="checkbox" onChange={statusHandler} checked={currentStatus ? true : false} className="accent-slate-50"/>
+          <input
+            type="checkbox"
+            onChange={statusHandler}
+            checked={currentStatus ? true : false}
+            className="accent-emerald-700"
+          />
           <h1
             contentEditable={edit}
             tabIndex={0}
             suppressContentEditableWarning="true"
             ref={Title}
             aria-required
-            className={currentStatus ? "font-semibold inline line-through ml-2 font-mono text-lg" : "font-semibold inline ml-2 font-mono text-lg"}
+            className={
+              currentStatus
+                ? "font-semibold inline line-through ml-2  sm:text-lg"
+                : "font-semibold inline ml-2  sm:text-lg"
+            }
           >
             {title}
           </h1>
-          <h1 className={currentStatus ?  "font-mono line-through ml-5" : 'font-mono ml-5'}>{desc}</h1>
+          <h1
+            className={
+              currentStatus ? " line-through ml-5" : " ml-5"
+            }
+          >
+            {desc}
+          </h1>
         </div>
         <div className="flex gap-2">
           <button
             onClick={editHandler}
             className={
               !edit
-                ? "bg-slate-50 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-600 text-slate-600 px-3 py-1 font-semibold rounded-md border text-2xl border-slate-600"
-                : "bg-green-50 text-green-600 px-3 py-1 font-semibold rounded-md border text-2xl border-green-600"
+                ? "bg-[#F7F4F3] hover:bg-blue-50 hover:text-blue-600  text-slate-600 px-3 py-1 font-semibold rounded-md text-2xl"
+                : "bg-green-50 text-green-600 px-3 py-1 font-semibold rounded-md text-2xl"
             }
           >
             {edit ? <FaRegSave /> : <BiSolidEdit />}
           </button>
           <button
             onClick={() => del(id)}
-            className="bg-slate-50 text-slate-600 px-3 transition-all py-1 font-semibold rounded-md border text-2xl border-slate-600 hover:bg-red-50 hover:text-red-600 hover:border-red-600"
+            className="bg-[#F7F4F3] text-slate-600 px-3 transition-all py-1 font-semibold rounded-md text-2xl hover:bg-red-50 hover:text-red-600"
           >
             <MdDeleteOutline />
           </button>

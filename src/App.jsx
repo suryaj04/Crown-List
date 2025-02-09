@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Card from "./Card";
+import { BlurFade } from "./components/magicui/blur-fade"
+import { Ripple } from "./components/magicui/ripple"
 import {
   SignedIn,
   SignedOut,
@@ -28,6 +30,7 @@ export default function App() {
         desc: data.description,
         createdBy: user.username,
         status: false,
+        priority: "low priority",
       })
       .then(() => {
         setLoad(false);
@@ -76,46 +79,61 @@ export default function App() {
   }
   return (
     <div>
-      <div className="border-b p-3">
+      <div className="border-b border-[#5B2333] bg-[#F7F4F3] text-[#5B2333] p-3">
         <header className=" sm:w-[90%] w-11/12  md:w-[90%] lg:w-[900px] flex justify-between items-center mx-auto">
-          <h1 className="font-bold text-xl sm:text-3xl font-mono">CrownList</h1>
+          <h1
+            className="font-bold text-xl sm:text-3xl font-mono"
+            title="Website name"
+          >
+            CrownList
+          </h1>
           <SignedIn>
-            <UserButton />
+            <UserButton
+              appearance={{
+                elements: {
+                  userButtonAvatarBox: "w-11 h-11",
+                },
+              }}
+            />
           </SignedIn>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
         </header>
       </div>
       <SignedIn>
         <form
           action=""
-          className="sm:w-96 w-[90%] mx-auto p-2 mt-5"
+          className="sm:w-96  w-[90%] mx-auto p-2 mt-5"
           onSubmit={handleSubmit(submit)}
         >
-          <h1 className="font-bold text-xl sm:text-2xl">
-            Command A New Task{" "}
-            <span className="text-neutral-600 text-xl sm:text-2xl">
-              @{isSignedIn ? user.firstName : ""}
+          <h1
+            className="font-semibold text-xl text-[#2E382E] sm:text-2xl"
+            title="Just a dialogue"
+          >
+            Command a new task
+            <span
+              title="Username"
+              className="text-[#5B2333] text-xl font-bold sm:text-2xl"
+            >
+              {isSignedIn ? ` ${user.firstName}` : ""}
             </span>
           </h1>
           <input
             required
             {...register("title")}
             type="text"
-            className="w-full mt-2 border p-2 rounded-md"
+            className="w-full focus:outline-[#5B2333] mt-2 border p-2 rounded-md"
             placeholder="Enter title"
+            title="Enter your title"
           />
           <input
-            required
             {...register("description")}
             type="text"
-            className="w-full mt-2 border p-2 rounded-md"
+            className="w-full focus:outline-[#5B2333] mt-2 border p-2 rounded-md"
             placeholder="Enter description"
+            title="Enter your description"
           />
           <button
-            title="Add your tasks over here"
-            className="bg-black px-3 py-1 mt-2 rounded-lg font-mono text-white font-bold text-lg"
+            title="Add your tasks"
+            className="bg-[#5B2333] text-[#F7F4F3] px-3 py-1 mt-2 rounded-lg font-mono font-bold text-lg"
           >
             {load ? (
               <div className="flex items-center gap-1">
@@ -130,15 +148,15 @@ export default function App() {
         {todos.filter((todo) =>
           isSignedIn ? todo.createdBy === user.username : true
         ).length > 0 ? (
-          <h1 className="font-bold font-mono text-xl sm:text-2xl my-2 text-center">
-            Your Tasks
+          <h1 className="font-semibold text-xl text-[#2E382E] sm:text-2xl my-2 text-center">
+            Your tasks
           </h1>
         ) : (
-          <h1 className="font-bold font-mono tracking-tighter text-xl sm:text-2xl my-2 text-center">
-            Add task to see them here
+          <h1 className="font-bold text-[#2E382E] font-mono tracking-tighter text-xl sm:text-2xl my-2 text-center">
+            Your task list is waiting to be filled
           </h1>
         )}
-        <div className="flex flex-col-reverse">
+        <div title="Task list" className="flex flex-col-reverse">
           {todos
             .filter((todo) =>
               isSignedIn ? todo.createdBy === user.username : true
@@ -173,17 +191,23 @@ export default function App() {
           Task deleted successfully
         </h1>
       </SignedIn>
-      <SignedOut>
-        <div className="sm:w-[560px] w-[90%] mt-20 h-screen top-1/2 sm:mt-52 mx-auto">
-          <h1 className="sm:text-3xl text-center text-xl font-bold sm:font-black">
-            Simplify, Organize, Accomplish.
+      <SignedOut className="overflow-hidden">
+        <div className="sm:w-[560px] w-[90%] absolute top-1/2 left-1/2 translate-x-[-50%] text-pretty translate-y-[-50%] mx-auto">
+        <BlurFade delay={0.25} inView>
+          <h1 className="sm:text-3xl text-center text-[#5B2333] text-2xl font-black">
+          Simplify, Organize, Accomplish.
           </h1>
-          <p className="text-center text-lg   ">
+          <p className=" text-[#2E382E] font-semibold text-center text-lg">
             Streamline your day and focus on what matters most. Our intuitive
             to-do app helps you prioritize, organize, and tackle your tasks with
             ease.
           </p>
+          </BlurFade>
+          <center>
+            <SignInButton className="font-bold px-5 py-2 bg-[#5B2333] text-[#F7F4F3] mt-2 rounded-full" />
+          </center>
         </div>
+        <Ripple />
       </SignedOut>
     </div>
   );
