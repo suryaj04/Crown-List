@@ -152,7 +152,7 @@ export default function App() {
             Your tasks
           </h1>
         ) : (
-          <h1 className="font-bold text-[#2E382E] font-mono tracking-tighter text-xl sm:text-2xl my-2 text-center">
+          <h1 className="font-bold text-[#2E382E] tracking-tighter text-xl sm:text-2xl my-2 text-center">
             Your task list is waiting to be filled
           </h1>
         )}
@@ -193,7 +193,7 @@ export default function App() {
       </SignedIn>
       <SignedOut>
         <div className="sm:w-[560px] w-[90%] absolute top-1/2 left-1/2 translate-x-[-50%] overflow-hidden text-pretty translate-y-[-50%] mx-auto">
-        <BlurFade delay={0.25} inView>
+        <BlurFade delay={0.50} inView>
           <h1 className="sm:text-3xl text-center text-[#5B2333] text-2xl font-black">
           Simplify, Organize, Accomplish.
           </h1>
