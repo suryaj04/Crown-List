@@ -27,6 +27,7 @@ export default function App() {
         desc: data.description,
         createdBy: user.username,
         status: false,
+        time:new Date(data.time).toLocaleString()
       }).then(() => {
         setLoading(false);
         reset();
@@ -75,6 +76,7 @@ export default function App() {
           <h1 className="font-semibold text-xl text-[#2E382E] sm:text-2xl">Command a new task<span title="Username" className="text-[#5B2333] text-xl font-bold sm:text-2xl" >{isSignedIn ? ` ${user.firstName}` : ""}</span></h1>
           <input required {...register("title")} type="text" className="w-full focus:outline-[#5B2333] mt-2 border p-2 rounded-md" placeholder="Enter title" title="Enter your title" />
           <input {...register("description")} type="text" className="w-full focus:outline-[#5B2333] mt-2 border p-2 rounded-md" placeholder="Enter description" title="Enter your description" />
+          <input type="datetime-local" {...register('time')} className="w-full focus:outline-[#5B2333] mt-2 border p-2 rounded-md" />
           <button title="Add your tasks" className="bg-[#5B2333] transition-all active:bg-[#7A3F5B] text-[#F7F4F3] px-3 py-1 mt-2 rounded-lg font-mono font-bold text-lg">
             {loading ? 
               <div className="flex items-center gap-1">
