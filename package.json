@@ -11,8 +11,11 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.13.1",
+    "@radix-ui/react-slot": "^1.1.2",
     "@react-spring/web": "^9.7.5",
+    "@types/canvas-confetti": "^1.9.0",
     "axios": "^1.7.7",
+    "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
