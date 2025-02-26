@@ -4,7 +4,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { BiSolidEdit } from "react-icons/bi";
 import { FaRegSave } from "react-icons/fa";
 
-export default function Card({ title, desc, id, del, status }) {
+export default function Card({ title, desc, id, del, status,time }) {
   let [edit, setEdit] = useState(false);
   let [currentStatus, setCurrentStatus] = useState(status);
   let api = import.meta.env.VITE_API_URL;
@@ -24,10 +24,8 @@ export default function Card({ title, desc, id, del, status }) {
   }
   function statusHandler() {
     setCurrentStatus((prev) => !prev);
-    axios.patch(`${api}todos/${id}.json`, { status: !status }).then(() => {
-        console.log(currentStatus);
-      }).catch((err) => {
-        console.log(err);
+    axios.patch(`${api}todos/${id}.json`, { status: !status }).catch((err) => {
+        console.error(err);
       });
   }
   return (
@@ -36,7 +34,8 @@ export default function Card({ title, desc, id, del, status }) {
         <div>
           <input type="checkbox" onChange={statusHandler} checked={currentStatus ? true : false} className="accent-emerald-700"/>
           <h1 contentEditable={edit} tabIndex={0} suppressContentEditableWarning="true" ref={Title} aria-required className={ currentStatus ? "font-semibold inline line-through ml-2  sm:text-lg" : "font-semibold inline ml-2  sm:text-lg" } >{title}</h1>
-          <h1 className={currentStatus ? " line-through ml-5" : " ml-5"}>{desc}</h1>
+          <h1 className={currentStatus ? " line-through ml-5" : "ml-5"}>{desc}</h1>
+          <h1>{time}</h1>
         </div>
         <div className="flex gap-2">
           <button onClick={editHandler} className={ !edit ? "bg-[#F7F4F3] sm:hover:bg-blue-50 sm:hover:text-blue-600  text-[#5B2333] px-2 py-1 font-semibold rounded-md  sm:text-xl " : "bg-green-50 text-[#5B2333] px-2 py-1 font-semibold rounded-md sm:text-xl"} >

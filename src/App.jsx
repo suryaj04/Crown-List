@@ -12,6 +12,7 @@ import {
   useUser,
   useAuth,
 } from "@clerk/clerk-react";
+import { CrownIcon } from "lucide-react";
 
 export default function App() {
   let { register, handleSubmit, reset } = useForm();
@@ -21,6 +22,7 @@ export default function App() {
   let { isSignedIn } = useAuth();
   let API = import.meta.env.VITE_API_URL;
   function submit(data) {
+    Notification.permission == "default" ? requestPermission() : console.log("Permission is: ", Notification.permission);
     setLoading(true);
     axios.post(`${API}todos.json`, {
         title: data.title,
@@ -29,9 +31,13 @@ export default function App() {
         status: false,
         time:new Date(data.time).toLocaleString()
       }).then(() => {
+        if(Notification.permission === "granted") new Notification("New task added", { body: `${data.title} has been added to the task list`,icon:( <CrownIcon/>) });
         setLoading(false);
         reset();
       }).catch(error=> console.log('Task adding unsuccessful', error));
+  }
+  function requestPermission() {
+    Notification.requestPermission().then(permission=> console.log(permission))
   }
   function fetchTodo(){
     axios.get(`${API}todos.json`).then(todo=>{
@@ -54,19 +60,20 @@ export default function App() {
     axios.delete(`${API}todos/${id}.json`).then(()=>{
         console.log("successfully deleted");
       }).catch(error=>{
-        console.log("Task deletion is unsuccessful",error);
+        console.error("Task deletion is unsuccessful",error);
       });
   }
+  
   return (
     <div>
       <div className="border-b border-[#5B2333] text-[#5B2333] p-2">
         <header className="sm:w-[90%] w-11/12 lg:w-[900px] flex justify-between items-center mx-auto">
-          <h1 className="font-bold text-xl sm:text-3xl font-mono" title="Website name">CrownList</h1>
+          <h1 className="font-bold text-xl sm:text-3xl flex items-center gap-2 font-mono" title="Website name"><CrownIcon color="red"/>CrownList</h1>
           <SignedIn>
             <UserButton
               appearance={{
                 elements: {
-                  userButtonAvatarBox: "w-11 h-11",
+                  userButtonAvatarBox: "sm:w-11 sm:h-11 w-10 h-10",
                 }}} />
           </SignedIn>
         </header>
@@ -76,7 +83,7 @@ export default function App() {
           <h1 className="font-semibold text-xl text-[#2E382E] sm:text-2xl">Command a new task<span title="Username" className="text-[#5B2333] text-xl font-bold sm:text-2xl" >{isSignedIn ? ` ${user.firstName}` : ""}</span></h1>
           <input required {...register("title")} type="text" className="w-full focus:outline-[#5B2333] mt-2 border p-2 rounded-md" placeholder="Enter title" title="Enter your title" />
           <input {...register("description")} type="text" className="w-full focus:outline-[#5B2333] mt-2 border p-2 rounded-md" placeholder="Enter description" title="Enter your description" />
-          <input type="datetime-local" {...register('time')} className="w-full focus:outline-[#5B2333] mt-2 border p-2 rounded-md" />
+          <input type="datetime-local" {...register('time')} required className="w-full focus:outline-[#5B2333] mt-2 border p-2 rounded-md" />
           <button title="Add your tasks" className="bg-[#5B2333] transition-all active:bg-[#7A3F5B] text-[#F7F4F3] px-3 py-1 mt-2 rounded-lg font-mono font-bold text-lg">
             {loading ? 
               <div className="flex items-center gap-1">
@@ -95,6 +102,7 @@ export default function App() {
                 key={todo.id}
                 id={todo.id}
                 status={todo.status}
+                time={todo.time}
               /> ))}
         </div>
       </SignedIn>
