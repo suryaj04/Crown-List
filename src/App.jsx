@@ -22,8 +22,8 @@ export default function App() {
   let { isSignedIn } = useAuth();
   let API = import.meta.env.VITE_API_URL;
   function submit(data) {
-    Notification.permission == "default" ? requestPermission() : console.log("Permission is: ", Notification.permission);
     setLoading(true);
+    Notification.permission == "default" ? requestPermission() : console.log("Permission is: ", Notification.permission);
     axios.post(`${API}todos.json`, {
         title: data.title,
         desc: data.description,
@@ -31,8 +31,8 @@ export default function App() {
         status: false,
         time:new Date(data.time).toLocaleString()
       }).then(() => {
-        if(Notification.permission === "granted") new Notification("New task added", { body: `${data.title} has been added to the task list`,icon:( <CrownIcon/>) });
         setLoading(false);
+        if(Notification.permission === "granted") new Notification("New task added", { body: `${data.title} has been added to the task list`});
         reset();
       }).catch(error=> console.log('Task adding unsuccessful', error));
   }
