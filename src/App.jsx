@@ -32,8 +32,8 @@ export default function App() {
         time:new Date(data.time).toLocaleString()
       }).then(() => {
         setLoading(false);
-        if(Notification.permission === "granted") new Notification("New task added", { body: `${data.title} has been added to the task list`});
         reset();
+        if(Notification.permission === "granted") new Notification("New task added", { body: `${data.title} has been added to the task list`});
       }).catch(error=> console.log('Task adding unsuccessful', error));
   }
   function requestPermission() {
