@@ -23,7 +23,7 @@ export default function App() {
   let API = import.meta.env.VITE_API_URL;
   function submit(data) {
     setLoading(true);
-    Notification.permission == "default" ? requestPermission() : console.log("Permission is: ", Notification.permission);
+    // Notification.permission === "default" ? requestPermission() : console.log("Permission is: ", Notification.permission);
     axios.post(`${API}todos.json`, {
         title: data.title,
         desc: data.description,
@@ -36,8 +36,13 @@ export default function App() {
         if(Notification.permission === "granted") new Notification("New task added", { body: `${data.title} has been added to the task list`});
       }).catch(error=> console.log('Task adding unsuccessful', error));
   }
+  useEffect(() => {
+    if (Notification.permission === "default") {
+      requestPermission();
+    }
+  }, []);
   function requestPermission() {
-    Notification.requestPermission().then(permission=> console.log(permission))
+    Notification.requestPermission().then(permission=> alert(`Notification permission is: ${permission}`));
   }
   function fetchTodo(){
     axios.get(`${API}todos.json`).then(todo=>{
