@@ -73,7 +73,7 @@ export default function App() {
     <div>
       <div className="border-b border-[#5B2333] text-[#5B2333] p-2">
         <header className="sm:w-[90%] w-11/12 lg:w-[900px] flex justify-between items-center mx-auto">
-          <h1 className="font-bold text-xl sm:text-3xl flex items-center gap-2 font-mono" title="Website name"><CrownIcon color="red"/>CrownList</h1>
+          <h1 className="font-bold text-xl sm:text-3xl flex items-center gap-2 font-mono" title="Website name"><CrownIcon color="#5B2333"/>CrownList</h1>
           <SignedIn>
             <UserButton
               appearance={{
@@ -86,9 +86,15 @@ export default function App() {
       <SignedIn>
         <form className="sm:w-96 w-[90%] mx-auto p-2 mt-5" onSubmit={handleSubmit(submit)} >
           <h1 className="font-semibold text-xl text-[#2E382E] sm:text-2xl">Command a new task<span title="Username" className="text-[#5B2333] text-xl font-bold sm:text-2xl" >{isSignedIn ? ` ${user.firstName}` : ""}</span></h1>
-          <input required {...register("title")} type="text" className="w-full focus:outline-[#5B2333] mt-2 border p-2 rounded-md" placeholder="Enter title" title="Enter your title" />
-          <input {...register("description")} type="text" className="w-full focus:outline-[#5B2333] mt-2 border p-2 rounded-md" placeholder="Enter description" title="Enter your description" />
-          <input type="datetime-local" {...register('time')} required className="w-full focus:outline-[#5B2333] mt-2 border p-2 rounded-md" />
+          <div className="relative">
+          <input required {...register("title")} type="text" id="title" className="w-full peer/title focus:outline-none my-1 border-b-2 border-[#5B2333] p-2 bg-inherit placeholder:invisible" placeholder="Enter title" title="Enter your title" />
+          <label htmlFor="title" className="absolute -top-2 pointer-events-none transition-all duration-300 text-lg font-semibold left-2 text-[#5B2333] peer-placeholder-shown/title:top-4 peer-placeholder-shown/title:text-gray-400 peer-placeholder-shown/title:text-base ">Enter title</label>
+          </div>
+          <div className="relative flex gap-1">
+          <input required {...register("description")} type="text" id="description" className="sm:w-[91%] w-[84%] peer/description focus:outline-none mt-1 border-b-2 border-[#5B2333] p-2 bg-inherit placeholder:invisible" placeholder="Enter title" title="Enter your description" />
+          <label htmlFor="description" className="absolute -top-2 pointer-events-none transition-all duration-300 text-lg font-semibold left-2 text-[#5B2333] peer-placeholder-shown/description:top-4 peer-placeholder-shown/description:text-gray-400 peer-placeholder-shown/description:text-base">Enter description</label>
+          <input type="datetime-local" {...register('time')} required className="sm:w-[9%] w-[16%] focus:outline-[#5B2333] mt-2 border-2 border-[#5B2333] p-1 rounded-md" />
+          </div>
           <button title="Add your tasks" className="bg-[#5B2333] transition-all active:bg-[#7A3F5B] text-[#F7F4F3] px-3 py-1 mt-2 rounded-lg font-mono font-bold text-lg">
             {loading ? 
               <div className="flex items-center gap-1">
@@ -97,7 +103,7 @@ export default function App() {
               </div> : "Add Task" }</button>
         </form>
         {todos.filter(todo=> isSignedIn ? todo.createdBy === user.username : true).length > 0 ? 
-          <h1 className="font-semibold text-xl text-[#2E382E] sm:text-2xl my-2 text-center">Your tasks</h1> : <h1 className="font-semibold text-[#2E382E] text-xl sm:text-2xl my-2 text-center">Your task list is waiting to be filled</h1> }
+          <h1 className="font-semibold text-xl text-[#2E382E] sm:text-2xl my-2 text-center">Your tasks</h1> : <h1 className="font-semibold text-[#2E382E] text-xl sm:text-2xl my-2 text-center p-2">Your task list is waiting to be filled</h1> }
         <div className="flex flex-col-reverse">
           {todos.filter(todo=> isSignedIn ? todo.createdBy === user.username : true).map(todo=>(
               <Card
