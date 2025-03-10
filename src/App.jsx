@@ -84,7 +84,7 @@ export default function App() {
         </header>
       </div>
       <SignedIn>
-        <form className="sm:w-96 w-[90%] mx-auto p-2 mt-5" onSubmit={handleSubmit(submit)} >
+        <form className="sm:w-96 w-[90%] mx-auto p-2 mt-1" onSubmit={handleSubmit(submit)} >
           <h1 className="font-semibold text-xl text-[#2E382E] sm:text-2xl">Command a new task<span title="Username" className="text-[#5B2333] text-xl font-bold sm:text-2xl" >{isSignedIn ? ` ${user.firstName}` : ""}</span></h1>
           <div className="relative">
           <input required {...register("title")} type="text" id="title" className="w-full peer/title focus:outline-none my-1 border-b-2 border-[#5B2333] p-2 bg-inherit placeholder:invisible" placeholder="Enter title" title="Enter your title" />
