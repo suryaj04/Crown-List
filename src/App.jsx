@@ -95,7 +95,7 @@ export default function App() {
           <label htmlFor="description" className="absolute -top-2 pointer-events-none transition-all duration-300 text-lg font-semibold left-2 text-[#5B2333] peer-placeholder-shown/description:top-4 peer-placeholder-shown/description:text-gray-400 peer-placeholder-shown/description:text-base">Enter description</label>
           <input type="datetime-local" {...register('time')} required className="sm:w-[9%] w-[16%] focus:outline-[#5B2333] mt-2 border-2 border-[#5B2333] p-1 rounded-md" />
           </div>
-          <button title="Add your tasks" className="bg-[#5B2333] transition-all active:bg-[#7A3F5B] text-[#F7F4F3] px-3 py-1 mt-2 rounded-lg font-mono font-bold text-lg">
+          <button title="Add your tasks" className="bg-[#5B2333] transition-all active:bg-[#7A3F5B] text-[#F7F4F3] px-3 py-1 mt-2 rounded-lg font-mono font-bold sm:text-lg text-base  ">
             {loading ? 
               <div className="flex items-center gap-1">
                 <h1>Adding task</h1>
