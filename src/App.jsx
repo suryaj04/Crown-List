@@ -2,8 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Card from "./Card";
-import { BlurFade } from "./components/magicui/blur-fade";
 import { Ripple } from "./components/magicui/ripple";
+import { BlurFade } from "./components/magicui/blur-fade";
+
 import {
   SignedIn,
   SignedOut,
@@ -20,29 +21,26 @@ export default function App() {
   let [ loading, setLoading ] = useState(false);
   let { user } = useUser();
   let { isSignedIn } = useAuth();
+  let [ allTasks, setAllTasks ] = useState(true);
   let API = import.meta.env.VITE_API_URL;
+  let [finishedTasks,setFinishedTasks] = useState(false)
+  let [unfinishedTasks,setUnfinishedTasks] = useState(false)
   function submit(data) {
     setLoading(true);
-    // Notification.permission === "default" ? requestPermission() : console.log("Permission is: ", Notification.permission);
     axios.post(`${API}todos.json`, {
         title: data.title,
         desc: data.description,
         createdBy: user.username,
         status: false,
-        time:new Date(data.time).toLocaleString()
       }).then(() => {
+        if(Notification.permission==='granted'){
+          new Notification('New task added',{
+            body: `${data.title} has been added to the task list `
+          });
+        }
         setLoading(false);
         reset();
-        if(Notification.permission === "granted") new Notification("New task added", { body: `${data.title} has been added to the task list`});
       }).catch(error=> console.log('Task adding unsuccessful', error));
-  }
-  useEffect(() => {
-    if (Notification.permission === "default") {
-      requestPermission();
-    }
-  }, []);
-  function requestPermission() {
-    Notification.requestPermission().then(permission=> alert(`Notification permission is: ${permission}`));
   }
   function fetchTodo(){
     axios.get(`${API}todos.json`).then(todo=>{
@@ -60,6 +58,9 @@ export default function App() {
   }
   useEffect(() => {
     fetchTodo();
+    if(Notification.permission==='default'){
+      Notification.requestPermission()
+    }
   }, []);
   function deletehandler(id) {
     axios.delete(`${API}todos/${id}.json`).then(()=>{
@@ -68,12 +69,26 @@ export default function App() {
         console.error("Task deletion is unsuccessful",error);
       });
   }
-  
+  function allTasksButton(){
+    setFinishedTasks(false)
+    setUnfinishedTasks(false)
+    setAllTasks(prev=>!prev)
+  }
+  function finishedTasksButton(){
+    setAllTasks(false)
+    setUnfinishedTasks(false)
+    setFinishedTasks(prev=>!prev)
+  }
+  function unfinishedTasksButton(){
+    setAllTasks(false)
+    setFinishedTasks(false)
+    setUnfinishedTasks(prev=>!prev)
+  }
   return (
     <div>
       <div className="border-b border-[#5B2333] text-[#5B2333] p-2">
         <header className="sm:w-[90%] w-11/12 lg:w-[900px] flex justify-between items-center mx-auto">
-          <h1 className="font-bold text-xl sm:text-3xl flex items-center gap-2 font-mono" title="Website name"><CrownIcon color="#5B2333"/>CrownList</h1>
+          <h1 className="font-bold text-xl sm:text-3xl flex items-center gap-2 font-mono"><CrownIcon color="#5B2333"/>CrownList</h1>
           <SignedIn>
             <UserButton
               appearance={{
@@ -91,21 +106,24 @@ export default function App() {
           <label htmlFor="title" className="absolute -top-2 pointer-events-none transition-all duration-300 text-lg font-semibold left-2 text-[#5B2333] peer-placeholder-shown/title:top-4 peer-placeholder-shown/title:text-gray-400 peer-placeholder-shown/title:text-base ">Enter title</label>
           </div>
           <div className="relative flex gap-1">
-          <input required {...register("description")} type="text" id="description" className="sm:w-[91%] w-[84%] peer/description focus:outline-none mt-1 border-b-2 border-[#5B2333] p-2 bg-inherit placeholder:invisible" placeholder="Enter title" title="Enter your description" />
+          <input required {...register("description")} type="text" id="description" className="w-full peer/description focus:outline-none mt-1 border-b-2 border-[#5B2333] p-2 bg-inherit placeholder:invisible" placeholder="Enter title" title="Enter your description" />
           <label htmlFor="description" className="absolute -top-2 pointer-events-none transition-all duration-300 text-lg font-semibold left-2 text-[#5B2333] peer-placeholder-shown/description:top-4 peer-placeholder-shown/description:text-gray-400 peer-placeholder-shown/description:text-base">Enter description</label>
-          <input type="datetime-local" {...register('time')} required className="sm:w-[9%] w-[16%] focus:outline-[#5B2333] mt-2 border-2 border-[#5B2333] p-1 rounded-md" />
           </div>
-          <button title="Add your tasks" className="bg-[#5B2333] transition-all active:bg-[#7A3F5B] text-[#F7F4F3] px-3 py-1 mt-2 rounded-lg font-mono font-bold sm:text-lg text-base  ">
+          <button title="Add your tasks" className="bg-[#5B2333] transition-all active:bg-[#7A3F5B] text-[#F7F4F3] px-3 py-1 mt-2 rounded-lg font-mono font-bold sm:text-lg text-base">
             {loading ? 
               <div className="flex items-center gap-1">
                 <h1>Adding task</h1>
                 <div className="loader"></div>
               </div> : "Add Task" }</button>
         </form>
-        {todos.filter(todo=> isSignedIn ? todo.createdBy === user.username : true).length > 0 ? 
-          <h1 className="font-semibold text-xl text-[#2E382E] sm:text-2xl my-2 text-center">Your tasks</h1> : <h1 className="font-semibold text-[#2E382E] text-xl sm:text-2xl my-2 text-center p-2">Your task list is waiting to be filled</h1> }
+        <div className="flex gap-1 w-52 sm:w-80 mx-auto">
+          <button disabled={allTasks? true:false} className={allTasks ? "border-[#5B2333] transition-all duration-200 border-b-2" : "hover:border-[#5B2333] transition-all duration-200 hover:border-b"} onClick={allTasksButton}>All tasks</button>
+          <button disabled={finishedTasks?true:false} className={finishedTasks?"border-[#5B2333] transition-all duration-200 p-2 border-b-2" : "hover:border-[#5B2333] transition-all duration-200 p-2 hover:border-b"} onClick={finishedTasksButton}>Finished tasks</button>
+          <button disabled={unfinishedTasks?true:false} className={unfinishedTasks?"border-[#5B2333] transition-all duration-200 p-2 border-b-2" : "hover:border-[#5B2333] transition-all duration-200 p-2 hover:border-b"} onClick={unfinishedTasksButton}>Unfinished tasks</button>
+        </div>
         <div className="flex flex-col-reverse">
-          {todos.filter(todo=> isSignedIn ? todo.createdBy === user.username : true).map(todo=>(
+          {unfinishedTasks ?
+          todos.filter(todo=> isSignedIn ? todo.createdBy === user.username : true).filter(todo=>todo.status===false).map(todo=>(
               <Card
                 title={todo.title}
                 desc={todo.desc}
@@ -113,13 +131,32 @@ export default function App() {
                 key={todo.id}
                 id={todo.id}
                 status={todo.status}
-                time={todo.time}
-              /> ))}
+              /> )) : ''}
+          {allTasks ?
+          todos.filter(todo=> isSignedIn ? todo.createdBy === user.username : true).map(todo=>(
+              <Card
+                title={todo.title}
+                desc={todo.desc}
+                del={deletehandler}
+                key={todo.id}
+                id={todo.id}
+                status={todo.status}
+              /> )) : ''}
+              { finishedTasks?
+               todos.filter(todo=> isSignedIn ? todo.createdBy === user.username : true).filter(todo=>todo.status===true).map(todo=>(
+              <Card
+                title={todo.title}
+                desc={todo.desc}
+                del={deletehandler}
+                key={todo.id}
+                id={todo.id}
+                status={todo.status}
+              /> )) :''}
         </div>
       </SignedIn>
       <SignedOut>
         <div className="sm:w-[560px] w-[90%] absolute top-1/2 left-1/2 translate-x-[-50%] overflow-hidden text-pretty translate-y-[-50%] mx-auto">
-          <BlurFade delay={0.5} inView>
+          <BlurFade delay={0.2} inView>
             <h1 className="sm:text-3xl text-center text-[#5B2333] text-2xl font-black">Simplify, Organize, Accomplish.</h1>
             <p className=" text-[#2E382E] font-semibold text-center text-lg">Streamline your day and focus on what matters most. Our intuitive to-do app helps you prioritize, organize, and tackle your tasks with ease.</p>
             <center>
