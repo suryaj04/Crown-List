@@ -160,7 +160,7 @@ export default function App() {
             <h1 className="sm:text-3xl text-center text-[#5B2333] text-2xl font-black">Simplify, Organize, Accomplish.</h1>
             <p className=" text-[#2E382E] font-semibold text-center text-lg">Streamline your day and focus on what matters most. Our intuitive to-do app helps you prioritize, organize, and tackle your tasks with ease.</p>
             <center>
-              <SignInButton className="font-bold px-5 py-2 bg-[#5B2333] text-[#F7F4F3] mt-2 rounded-full" />
+              <SignInButton className="font-bold px-5 py-2 bg-[#5B2333] active:bg-rose-900 text-[#F7F4F3] mt-2 rounded-full" />
             </center>
           </BlurFade>
         </div>
