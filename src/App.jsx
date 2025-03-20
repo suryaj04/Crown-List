@@ -121,7 +121,7 @@ export default function App() {
           <button disabled={finishedTasks?true:false} className={finishedTasks?"border-[#5B2333] transition-all duration-200 p-2 border-b-2" : "hover:border-[#5B2333] transition-all duration-200 p-2 hover:border-b"} onClick={finishedTasksButton}>Finished tasks</button>
           <button disabled={unfinishedTasks?true:false} className={unfinishedTasks?"border-[#5B2333] transition-all duration-200 p-2 border-b-2" : "hover:border-[#5B2333] transition-all duration-200 p-2 hover:border-b"} onClick={unfinishedTasksButton}>Unfinished tasks</button>
         </div>
-        <div className="flex flex-col-reverse">
+        <div className="flex flex-col-reverse mb-5">
           {unfinishedTasks ?
           todos.filter(todo=> isSignedIn ? todo.createdBy === user.username : true).filter(todo=>todo.status===false).map(todo=>(
               <Card
