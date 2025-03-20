@@ -106,7 +106,7 @@ export default function App() {
           <label htmlFor="title" className="absolute -top-2 pointer-events-none transition-all duration-300 text-lg font-semibold left-2 text-[#5B2333] peer-placeholder-shown/title:top-4 peer-placeholder-shown/title:text-gray-400 peer-placeholder-shown/title:text-base ">Enter title</label>
           </div>
           <div className="relative flex gap-1">
-          <input required {...register("description")} type="text" id="description" className="w-full peer/description focus:outline-none mt-1 border-b-2 border-[#5B2333] p-2 bg-inherit placeholder:invisible" placeholder="Enter title" title="Enter your description" />
+          <input {...register("description")} type="text" id="description" className="w-full peer/description focus:outline-none mt-1 border-b-2 border-[#5B2333] p-2 bg-inherit placeholder:invisible" placeholder="Enter title" title="Enter your description" />
           <label htmlFor="description" className="absolute -top-2 pointer-events-none transition-all duration-300 text-lg font-semibold left-2 text-[#5B2333] peer-placeholder-shown/description:top-4 peer-placeholder-shown/description:text-gray-400 peer-placeholder-shown/description:text-base">Enter description</label>
           </div>
           <button title="Add your tasks" className="bg-[#5B2333] transition-all active:bg-[#7A3F5B] text-[#F7F4F3] px-3 py-1 mt-2 rounded-lg font-mono font-bold sm:text-lg text-base">
