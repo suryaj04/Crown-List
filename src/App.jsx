@@ -86,7 +86,7 @@ export default function App() {
   }
   return (
     <div>
-      <div className="border-b border-[#5B2333] text-[#5B2333] p-2">
+      <div className="border-b border-[#5B2333] sticky top-0 bg-white text-[#5B2333] p-2">
         <header className="sm:w-[90%] w-11/12 lg:w-[900px] flex justify-between items-center mx-auto">
           <h1 className="font-bold text-xl sm:text-3xl flex items-center gap-2 font-mono"><CrownIcon color="#5B2333"/>CrownList</h1>
           <SignedIn>
