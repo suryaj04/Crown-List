@@ -116,7 +116,7 @@ export default function App() {
                 <div className="loader"></div>
               </div> : "Add Task" }</button>
         </form>
-        <div className="flex gap-1 w-52 sm:w-80 mx-auto">
+        <div className="flex gap-1 w-[90%] sm:w-80 mx-auto">
           <button disabled={allTasks? true:false} className={allTasks ? "border-[#5B2333] transition-all duration-200 border-b-2" : "hover:border-[#5B2333] transition-all duration-200 hover:border-b"} onClick={allTasksButton}>All tasks</button>
           <button disabled={finishedTasks?true:false} className={finishedTasks?"border-[#5B2333] transition-all duration-200 p-2 border-b-2" : "hover:border-[#5B2333] transition-all duration-200 p-2 hover:border-b"} onClick={finishedTasksButton}>Finished tasks</button>
           <button disabled={unfinishedTasks?true:false} className={unfinishedTasks?"border-[#5B2333] transition-all duration-200 p-2 border-b-2" : "hover:border-[#5B2333] transition-all duration-200 p-2 hover:border-b"} onClick={unfinishedTasksButton}>Unfinished tasks</button>
