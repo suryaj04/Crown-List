@@ -33,11 +33,13 @@ export default function App() {
         createdBy: user.username,
         status: false,
       }).then(() => {
-        if(Notification.permission==='granted'){
+if (window.innerWidth > 632) {
+ if(Notification.permission==='granted'){
           new Notification('New task added',{
             body: `${data.title} has been added to the task list `
           });
         }
+}
         setLoading(false);
         reset();
       }).catch(error=> console.log('Task adding unsuccessful', error));
