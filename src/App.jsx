@@ -60,8 +60,10 @@ if (window.innerWidth > 632) {
   }
   useEffect(() => {
     fetchTodo();
-    if(Notification.permission==='default'){
-      Notification.requestPermission()
+    if(window.innerWidth > 632){
+      if(Notification.permission==='default'){
+        Notification.requestPermission()
+      }
     }
   }, []);
   function deletehandler(id) {
